@@ -1,0 +1,147 @@
+module fsm(input clk,rst,seq,output reg d_out);
+	reg [3:0] state,next_state;
+parameter s0=4'b0000,
+	  s1=4'b0001,
+	  s2=4'b0010,
+	  s3=4'b0011,
+	  s4=4'b0100,
+	  s5=4'b0101,
+	  s6=4'b0110,
+	  s7=4'b0111,
+	  s8=4'b1000,
+	  s9=4'b1001;
+   always@(posedge clk)
+	begin
+		if(rst)
+			state<=0;
+		else
+			state<=next_state;
+	end
+always@(state,seq)
+	begin
+		next_state=s0;
+	case(state)
+	 s0:begin
+		if(seq==0)
+		begin
+			next_state=s1;
+			d_out=0;
+		end
+		else
+		 begin
+			next_state=s0;
+			d_out=0;
+		end
+	    end
+	s1:begin
+		if(seq==1)
+		begin
+			next_state=s2;
+			d_out=0;
+		end
+		else
+		 begin
+			next_state=s3;
+			d_out=0;
+		end
+	    end
+s2:begin
+		if(seq==1)
+		begin
+			next_state=s4;
+			d_out=1;
+		end
+		else
+		 begin
+			next_state=s1;
+			d_out=0;
+		end
+	    end
+s3:begin
+		if(seq==1)
+		begin
+			next_state=s5;
+			d_out=1;
+		end
+		else
+		 begin
+			next_state=s3;
+			d_out=0;
+		end
+	    end
+s4:begin
+		if(seq==1)
+		begin
+			next_state=s6;
+			d_out=1;
+		end
+		else
+		 begin
+			next_state=s7;
+			d_out=1;
+		end
+	    end
+s5:begin
+		if(seq==0)
+		begin
+			next_state=s7;
+			d_out=1;
+		end
+		else
+		 begin
+			next_state=s0;
+			d_out=0;
+		end
+	    end
+s6:begin
+		if(seq==0)
+		begin
+			next_state=s7;
+			d_out=1;
+		end
+		else
+		 begin
+			next_state=s6;
+			d_out=1;
+		end
+	    end
+s7:begin
+		if(seq==0)
+		begin
+			next_state=s9;
+			d_out=1;
+		end
+		else
+		 begin
+			next_state=s8;
+			d_out=1;
+		end
+	    end
+s8:begin
+		if(seq==0)
+		begin
+			next_state=s7;
+			d_out=1;
+		end
+		else
+		 begin
+			next_state=s0;
+			d_out=0;
+		end
+	    end
+s9:begin
+		if(seq==0)
+		begin
+			next_state=s9;
+			d_out=1;
+		end
+		else
+		 begin
+			next_state=s0;
+			d_out=0;
+		end
+	    end
+endcase
+end
+endmodule
+
